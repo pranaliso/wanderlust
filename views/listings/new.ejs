@@ -1,0 +1,233 @@
+<% layout("layouts/boilerplate") %>
+
+<br>
+
+<h3 class="text-center mb-4">
+    Create a New Listing
+</h3>
+
+<form
+    action="/listings"
+    method="POST"
+    enctype="multipart/form-data"
+    class="needs-validation mx-auto"
+    novalidate
+    style="max-width:600px;"
+>
+
+    <!-- Title -->
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+
+        <input
+            type="text"
+            class="form-control"
+            name="listing[title]"
+            placeholder="Enter title"
+            required
+        >
+
+        <div class="invalid-feedback">
+            Please enter a title.
+        </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+
+        <label class="form-label">
+            Description
+        </label>
+
+        <textarea
+            class="form-control"
+            rows="4"
+            name="listing[description]"
+            placeholder="Enter description"
+            required
+        ></textarea>
+
+        <div class="invalid-feedback">
+            Please enter description.
+        </div>
+
+    </div>
+
+    <!-- CATEGORY -->
+    <div class="mb-3">
+
+        <label class="form-label">
+            Category
+        </label>
+
+        <select
+            class="form-select"
+            name="listing[category]"
+            required
+        >
+
+            <option value="">
+                Select Category
+            </option>
+
+            <option value="Beach">
+                Beach
+            </option>
+
+            <option value="Mountain">
+                Mountain
+            </option>
+
+            <option value="City">
+                City
+            </option>
+
+            <option value="Camping">
+                Camping
+            </option>
+
+            <option value="Castle">
+                Castle
+            </option>
+
+            <option value="Island">
+                Island
+            </option>
+
+        </select>
+
+        <div class="invalid-feedback">
+            Please select a category.
+        </div>
+
+    </div>
+
+    <!-- Price & Country -->
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+
+            <label class="form-label">
+                Price
+            </label>
+
+            <input
+                type="number"
+                class="form-control"
+                name="listing[price]"
+                min="1"
+                placeholder="1500"
+                required
+            >
+
+            <div class="invalid-feedback">
+                Enter valid price.
+            </div>
+
+        </div>
+
+        <div class="col-md-8 mb-3">
+
+            <label class="form-label">
+                Country
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                name="listing[country]"
+                placeholder="India"
+                required
+            >
+
+            <div class="invalid-feedback">
+                Please enter country.
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Image -->
+    <div class="mb-3">
+
+        <label class="form-label">
+            Upload Image
+        </label>
+
+        <input
+            type="file"
+            class="form-control"
+            name="listing[image]"
+            accept="image/*"
+            required
+        >
+
+        <div class="invalid-feedback">
+            Please upload an image.
+        </div>
+
+    </div>
+
+    <!-- Location -->
+    <div class="mb-3">
+
+        <label class="form-label">
+            Location
+        </label>
+
+        <input
+            type="text"
+            class="form-control"
+            name="listing[location]"
+            placeholder="Mumbai"
+            required
+        >
+
+        <div class="invalid-feedback">
+            Please enter location.
+        </div>
+
+    </div>
+
+    <!-- Button -->
+    <div class="text-center">
+
+        <button
+            type="submit"
+            class="btn btn-danger px-5"
+        >
+            Create Listing
+        </button>
+
+    </div>
+
+    <br>
+
+</form>
+
+<script>
+(() => {
+    'use strict';
+
+    const forms = document.querySelectorAll('.needs-validation');
+
+    Array.from(forms).forEach(form => {
+
+        form.addEventListener('submit', event => {
+
+            if (!form.checkValidity()) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+            }
+
+            form.classList.add('was-validated');
+
+        });
+
+    });
+
+})();
+</script>

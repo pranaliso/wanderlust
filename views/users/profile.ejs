@@ -1,0 +1,99 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg p-4">
+
+        <div class="text-center">
+
+            <i class="fa-solid fa-circle-user fa-6x text-primary mb-3"></i>
+
+            <h2><%= user.username %></h2>
+
+            <p class="text-muted">
+                <%= user.email %>
+            </p>
+
+        </div>
+
+        <hr>
+
+        <div class="row text-center">
+
+            <div class="col-md-4">
+
+                <h5>Username</h5>
+
+                <p><%= user.username %></p>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h5>Email</h5>
+
+                <p><%= user.email %></p>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h5>Member Since</h5>
+
+                <p>
+                    <% if (user.createdAt) { %>
+                        <%= new Date(user.createdAt).toLocaleDateString("en-IN") %>
+                    <% } else { %>
+                        Not Available
+                    <% } %>
+                </p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row text-center">
+
+            <div class="col-md-6">
+
+                <h5>My Listings</h5>
+
+                <h3 class="text-primary">
+                    <%= myListings.length %>
+                </h3>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <h5>Wishlist</h5>
+
+                <h3 class="text-danger">
+                    <%= user.wishlist.length %>
+                </h3>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <a href="/listings/my" class="btn btn-primary me-2">
+                My Listings
+            </a>
+
+            <a href="/wishlist" class="btn btn-danger me-2">
+                Wishlist
+            </a>
+
+            <a href="/listings/new" class="btn btn-success">
+                Create Listing
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

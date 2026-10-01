@@ -1,0 +1,326 @@
+<% layout("layouts/boilerplate") %>
+
+
+<section class="hero">
+
+    <div class="hero-overlay">
+
+        <div class="hero-content">
+
+            <h1>
+                Find Your Perfect Stay
+            </h1>
+
+
+            <p>
+                Discover beautiful places around the world
+            </p>
+
+
+
+            <div>
+
+                <a 
+                href="/listings"
+                class="btn explore-btn">
+
+                Explore Listings
+
+                </a>
+
+
+                <% if(!currentUser){ %>
+
+                <a 
+                href="/signup"
+                class="btn join-btn">
+
+                Join Wanderlust
+
+                </a>
+
+                <% } %>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+<section class="container mt-5">
+
+
+<h2 class="text-center mb-4">
+
+Why Choose Wanderlust?
+
+</h2>
+
+
+
+<div class="row text-center">
+
+
+<div class="col-md-4">
+
+
+<div class="feature-card">
+
+
+<h3>
+🌎
+</h3>
+
+
+<h5>
+Amazing Places
+</h5>
+
+
+<p>
+Explore unique stays worldwide.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-4">
+
+
+<div class="feature-card">
+
+
+<h3>
+🏡
+</h3>
+
+
+<h5>
+Comfortable Homes
+</h5>
+
+
+<p>
+Stay like your own home.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-4">
+
+
+<div class="feature-card">
+
+
+<h3>
+⭐
+</h3>
+
+
+<h5>
+Trusted Reviews
+</h5>
+
+
+<p>
+Real reviews from travellers.
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+<style>
+
+
+.hero{
+
+
+height:80vh;
+
+background-image:url(
+"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+);
+
+
+background-size:cover;
+
+background-position:center;
+
+border-radius:20px;
+
+margin:20px;
+
+
+}
+
+
+
+.hero-overlay{
+
+
+height:100%;
+
+background:
+rgba(0,0,0,0.45);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+
+}
+
+
+
+.hero-content{
+
+
+text-align:center;
+
+color:white;
+
+
+}
+
+
+
+.hero-content h1{
+
+
+font-size:55px;
+
+font-weight:700;
+
+
+}
+
+
+
+.hero-content p{
+
+
+font-size:22px;
+
+margin-bottom:30px;
+
+
+}
+
+
+
+.explore-btn{
+
+
+background:#fe424d;
+
+color:white;
+
+padding:12px 30px;
+
+border-radius:30px;
+
+margin:10px;
+
+
+}
+
+
+
+.join-btn{
+
+
+background:white;
+
+color:#fe424d;
+
+padding:12px 30px;
+
+border-radius:30px;
+
+margin:10px;
+
+
+}
+
+
+
+
+.feature-card{
+
+
+padding:30px;
+
+border-radius:15px;
+
+background:white;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.1);
+
+
+transition:.3s;
+
+
+}
+
+
+
+.feature-card:hover{
+
+
+transform:translateY(-10px);
+
+
+}
+
+
+
+</style>

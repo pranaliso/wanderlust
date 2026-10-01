@@ -1,0 +1,539 @@
+<% layout("layouts/boilerplate") %>
+
+
+<h3 class="text-center mb-3">
+    <%= listing.title %>
+</h3>
+
+
+
+<!-- Listing Details -->
+
+<div class="listing-details">
+
+
+    <% if(listing.image && listing.image.url){ %>
+
+        <img 
+        src="<%= listing.image.url %>"
+        alt="<%= listing.title %>"
+        class="listing-image">
+
+    <% } else { %>
+
+        <img 
+        src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b"
+        class="listing-image">
+
+    <% } %>
+
+
+
+    <ul class="listing-info">
+
+
+        <li>
+            <strong>Owned By:</strong>
+            <%= listing.owner ? listing.owner.username : "Unknown" %>
+        </li>
+
+
+        <li>
+            <strong>Description:</strong>
+            <%= listing.description %>
+        </li>
+
+
+        <li>
+            <strong>Price:</strong>
+            ₹ <%= listing.price %>/night
+        </li>
+
+
+        <li>
+            <strong>Location:</strong>
+            <%= listing.location %>
+        </li>
+
+
+        <li>
+            <strong>Country:</strong>
+            <%= listing.country %>
+        </li>
+
+
+    </ul>
+
+
+</div>
+
+
+
+
+
+
+<!-- MAP SECTION -->
+
+<% if(
+    listing.geometry &&
+    listing.geometry.coordinates &&
+    listing.geometry.coordinates.length === 2
+){ %>
+
+
+<div class="container mt-4">
+
+
+<h4 class="text-center">
+    Where you'll stay
+</h4>
+
+
+<div id="map"></div>
+
+
+</div>
+
+
+<% } %>
+
+
+
+
+
+
+
+
+
+<!-- BUTTONS -->
+
+
+<div class="listing-buttons">
+
+
+<a href="/listings" class="btn back-btn">
+⬅ Back
+</a>
+
+
+
+<% if(currentUser){ %>
+
+
+<a 
+href="/listings/<%= listing._id %>/edit"
+class="btn edit-btn">
+
+Edit
+
+</a>
+
+
+
+
+<form 
+action="/listings/<%= listing._id %>?_method=DELETE"
+method="POST"
+style="display:inline;">
+
+
+<button class="btn delete-btn">
+
+🗑 Delete
+
+</button>
+
+
+</form>
+
+
+<% } %>
+
+
+</div>
+
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
+
+
+
+
+<!-- REVIEWS -->
+
+
+<div class="container mt-4">
+
+
+<% if(currentUser){ %>
+
+
+<div class="card p-3 mb-4">
+
+
+<h5>
+Leave a Review
+</h5>
+
+
+
+<form
+action="/listings/<%= listing._id %>/reviews"
+method="POST">
+
+
+
+<label>
+Rating
+</label>
+
+
+<input
+type="range"
+min="1"
+max="5"
+name="review[rating]"
+class="form-range">
+
+
+
+
+
+<label>
+Comment
+</label>
+
+
+<textarea
+name="review[comment]"
+class="form-control"
+required></textarea>
+
+
+
+<br>
+
+
+<button class="btn btn-primary">
+Submit
+</button>
+
+
+
+</form>
+
+
+</div>
+
+
+<% } %>
+
+
+
+
+
+
+
+<h4>
+Reviews
+</h4>
+
+
+
+
+<div class="row">
+
+
+<% if(listing.reviews && listing.reviews.length > 0){ %>
+
+
+<% listing.reviews.forEach(review=>{ %>
+
+
+<div class="col-md-4 mb-3">
+
+
+<div class="card p-3">
+
+
+<h6>
+⭐ <%= review.rating %>
+</h6>
+
+
+<p>
+<%= review.comment %>
+</p>
+
+
+<small>
+<%= review.owner ? review.owner.username : "Anonymous" %>
+</small>
+
+
+
+</div>
+
+
+</div>
+
+
+
+<% }) %>
+
+
+
+
+<% } else { %>
+
+
+<p>
+No reviews yet.
+</p>
+
+
+<% } %>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<style>
+
+
+body{
+    background:#fafafa;
+}
+
+
+
+.listing-details{
+
+    width:90%;
+    max-width:520px;
+    margin:auto;
+    padding:20px;
+
+    background:white;
+
+    border-radius:10px;
+
+    box-shadow:
+    0 3px 8px rgba(0,0,0,0.1);
+
+}
+
+
+
+.listing-image{
+
+    width:100%;
+    height:230px;
+
+    object-fit:cover;
+
+    border-radius:8px;
+
+}
+
+
+
+.listing-info{
+
+    list-style:none;
+    padding:0;
+
+}
+
+
+
+.listing-info li{
+
+    margin-bottom:8px;
+
+}
+
+
+
+
+.listing-buttons{
+
+    text-align:center;
+    margin:20px;
+
+}
+
+
+
+.btn{
+
+    padding:8px 14px;
+    border-radius:5px;
+    margin:5px;
+
+}
+
+
+
+.back-btn{
+
+    background:#ddd;
+    color:black;
+
+}
+
+
+
+.edit-btn{
+
+    background:#e85d5d;
+    color:white;
+
+}
+
+
+
+.delete-btn{
+
+    background:#f8d7da;
+    color:#721c24;
+
+}
+
+
+
+
+
+#map{
+
+    height:400px;
+
+    width:90%;
+
+    max-width:900px;
+
+    margin:20px auto;
+
+    border-radius:10px;
+
+    border:1px solid #ddd;
+
+}
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+<!-- LEAFLET MAP SCRIPT -->
+
+
+<% if(
+    listing.geometry &&
+    listing.geometry.coordinates &&
+    listing.geometry.coordinates.length === 2
+){ %>
+
+
+
+<script>
+
+
+const longitude = <%= listing.geometry.coordinates[0] %>;
+
+const latitude = <%= listing.geometry.coordinates[1] %>;
+
+
+
+const map = L.map("map")
+.setView(
+[
+latitude,
+longitude
+],
+10
+);
+
+
+
+
+
+L.tileLayer(
+
+"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+{
+
+attribution:
+"&copy; OpenStreetMap contributors"
+
+}
+
+).addTo(map);
+
+
+
+
+
+L.marker(
+[
+latitude,
+longitude
+]
+
+)
+
+.addTo(map)
+
+.bindPopup(
+
+"<%= listing.location %>, <%= listing.country %>"
+
+)
+
+.openPopup();
+
+
+
+
+
+setTimeout(()=>{
+
+    map.invalidateSize();
+
+},500);
+
+
+
+</script>
+
+
+
+<% } %>

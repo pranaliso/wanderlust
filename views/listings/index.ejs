@@ -1,0 +1,657 @@
+<% layout("layouts/boilerplate") %>
+
+
+<div class="container mt-5">
+
+
+<h2 class="text-center explore-title">
+    Explore Amazing Stays 🌍
+</h2>
+
+
+<p class="text-center text-muted">
+    Discover unique places around the world
+</p>
+
+
+
+<!-- ================= TAX SWITCH ================= -->
+
+<div class="d-flex justify-content-end mb-4">
+
+    <div class="form-check form-switch">
+
+        <input
+            class="form-check-input"
+            type="checkbox"
+            id="taxSwitch"
+        >
+
+        <label
+            class="form-check-label"
+            for="taxSwitch"
+        >
+            Display total price with 18% GST
+        </label>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- ================= FILTERS ================= -->
+
+<div class="category-bar">
+
+<a href="/listings" class="category-btn">
+    All
+</a>
+
+
+<a href="/listings?category=Beach" class="category-btn">
+    🏖 Beach
+</a>
+
+
+<a href="/listings?category=Mountain" class="category-btn">
+    ⛰ Mountain
+</a>
+
+
+<a href="/listings?category=City" class="category-btn">
+    🏙 City
+</a>
+
+
+<a href="/listings?category=Camping" class="category-btn">
+    ⛺ Camping
+</a>
+
+
+<a href="/listings?category=Castle" class="category-btn">
+    🏰 Castle
+</a>
+
+
+<a href="/listings?category=Island" class="category-btn">
+    🏝 Island
+</a>
+
+
+</div>
+
+
+
+
+
+<!-- ================= EMPTY ================= -->
+
+
+<% if(allListings.length === 0){ %>
+
+
+<div class="empty-box">
+
+<h3>
+    No Listings Found 😔
+</h3>
+
+<p>
+    Try another destination
+</p>
+
+
+</div>
+
+
+<% } %>
+
+
+
+
+
+
+
+<!-- ================= CARDS ================= -->
+
+
+<div class="listing-grid">
+
+
+<% allListings.forEach(listing=>{ %>
+
+
+
+<div class="listing-card">
+
+
+
+<a href="/listings/<%= listing._id %>" class="listing-link">
+
+
+
+<div class="image-wrapper">
+
+
+
+<img
+
+src="<%= listing.image && listing.image.url 
+? listing.image.url 
+: 'https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b'
+%>"
+
+alt="listing"
+
+>
+
+
+
+
+
+<!-- ================= WISHLIST ================= -->
+
+
+<% if(currentUser){ %>
+
+
+<%
+
+let isWishlisted =
+wishlist.includes(
+listing._id.toString()
+);
+
+%>
+
+
+
+<form
+
+action="/wishlist/<%= listing._id %>?_method=<%= isWishlisted ? 'DELETE' : 'POST' %>"
+
+method="POST"
+
+class="wishlist-form"
+
+>
+
+
+<button
+
+type="submit"
+
+class="heart-btn"
+
+>
+
+<%= isWishlisted ? "❤️" : "🤍" %>
+
+
+</button>
+
+
+</form>
+
+
+
+<% } else { %>
+
+
+
+<a
+
+href="/login"
+
+class="heart-btn"
+
+>
+
+🤍
+
+</a>
+
+
+<% } %>
+
+
+
+
+
+
+<span class="category">
+
+<%= listing.category %>
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card-content">
+
+
+<h4>
+
+<%= listing.title %>
+
+</h4>
+
+
+
+<p class="location">
+
+<i class="fa-solid fa-location-dot"></i>
+
+<%= listing.location %>,
+<%= listing.country %>
+
+</p>
+
+
+
+
+
+
+
+<p class="price">
+
+
+<span
+
+class="listing-price"
+
+data-price="<%= listing.price %>"
+
+>
+
+₹ <%= listing.price.toLocaleString("en-IN") %>
+
+</span>
+
+
+
+<span class="tax-info">
+
+/ night
+
+</span>
+
+
+
+</p>
+
+
+
+
+</div>
+
+
+
+
+</a>
+
+
+
+</div>
+
+
+
+
+<% }) %>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<style>
+
+
+body{
+
+background:#fafafa;
+
+}
+
+
+
+.explore-title{
+
+font-weight:700;
+
+font-size:38px;
+
+}
+
+
+
+
+
+.category-bar{
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:12px;
+
+margin:35px 0;
+
+}
+
+
+
+
+
+.category-btn{
+
+text-decoration:none;
+
+color:#222;
+
+border:1px solid #ddd;
+
+padding:10px 20px;
+
+border-radius:30px;
+
+background:white;
+
+transition:.3s;
+
+}
+
+
+
+.category-btn:hover{
+
+background:#fe424d;
+
+color:white;
+
+transform:translateY(-3px);
+
+}
+
+
+
+
+
+
+
+.listing-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+
+gap:30px;
+
+}
+
+
+
+
+
+
+.listing-card{
+
+background:white;
+
+border-radius:18px;
+
+overflow:hidden;
+
+box-shadow:
+
+0 5px 20px rgba(0,0,0,.1);
+
+transition:.3s;
+
+}
+
+
+
+.listing-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:
+
+0 12px 30px rgba(0,0,0,.18);
+
+}
+
+
+
+
+
+.listing-link{
+
+text-decoration:none;
+
+color:black;
+
+}
+
+
+
+
+
+
+.image-wrapper{
+
+height:250px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+
+
+
+
+.image-wrapper img{
+
+height:100%;
+
+width:100%;
+
+object-fit:cover;
+
+transition:.5s;
+
+}
+
+
+
+
+
+.listing-card:hover img{
+
+transform:scale(1.08);
+
+}
+
+
+
+
+
+
+/* WISHLIST BUTTON */
+
+
+.wishlist-form{
+
+position:absolute;
+
+top:15px;
+
+right:15px;
+
+}
+
+.heart-btn{
+height:42px;
+width:42px;
+border-radius:50%;
+border:none;
+
+background:white;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:22px;
+
+cursor:pointer;
+
+text-decoration:none;
+
+box-shadow:
+
+0 4px 10px rgba(0,0,0,.15);
+
+transition:.3s;
+
+}
+
+
+
+.heart-btn:hover{
+
+transform:scale(1.15);
+
+background:#fff0f0;
+
+}
+
+
+
+
+
+
+
+
+.category{
+
+position:absolute;
+
+left:15px;
+
+bottom:15px;
+
+background:white;
+
+padding:6px 15px;
+
+border-radius:20px;
+
+font-size:14px;
+
+font-weight:600;
+
+}
+
+
+
+
+
+
+.card-content{
+
+padding:18px;
+
+}
+
+
+
+.card-content h4{
+
+font-size:20px;
+
+font-weight:700;
+
+}
+
+
+
+
+
+.location{
+
+color:#666;
+
+font-size:15px;
+
+}
+
+
+
+
+
+.price{
+
+font-size:18px;
+
+font-weight:bold;
+
+color:#fe424d;
+
+}
+
+
+
+
+.price span{
+
+font-size:14px;
+
+font-weight:normal;
+
+color:#555;
+
+}
+
+
+
+
+
+.empty-box{
+
+text-align:center;
+
+margin-top:80px;
+
+}
+
+
+
+</style>
